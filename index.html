@@ -169,6 +169,150 @@
       .primary { background: var(--leaf); color: #fff; }
       .music { background: var(--violet); color: #fff; }
 
+      .playlist-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+        gap: 18px;
+        align-items: stretch;
+        margin-bottom: 26px;
+        border: 1px solid rgba(97, 50, 14, 0.22);
+        border-radius: 20px;
+        background:
+          linear-gradient(135deg, rgba(42, 22, 9, 0.92), rgba(88, 43, 18, 0.88)),
+          repeating-linear-gradient(45deg, rgba(255,255,255,0.08) 0 2px, transparent 2px 9px);
+        box-shadow: 0 24px 54px var(--shadow);
+        overflow: hidden;
+      }
+
+      .playlist-feature {
+        position: relative;
+        min-height: 360px;
+        padding: clamp(18px, 3vw, 28px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: #fff8df;
+        background:
+          radial-gradient(circle at 22% 18%, rgba(240,199,90,0.22), transparent 30%),
+          radial-gradient(circle at 82% 16%, rgba(121,76,182,0.22), transparent 28%);
+      }
+
+      .playlist-feature::before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border: 1px solid rgba(255,248,223,0.16);
+        border-radius: 16px;
+        pointer-events: none;
+      }
+
+      .playlist-feature > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .playlist-label {
+        display: inline-flex;
+        width: fit-content;
+        border: 1px solid rgba(255,248,223,0.28);
+        border-radius: 999px;
+        padding: 6px 10px;
+        color: #f0c75a;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .playlist-feature h2 {
+        margin: 14px 0 8px;
+        font-size: clamp(30px, 4vw, 48px);
+        line-height: 0.98;
+      }
+
+      .playlist-feature p {
+        margin: 0;
+        color: rgba(255,248,223,0.78);
+      }
+
+      .now-playing-card {
+        margin-top: 22px;
+        border: 1px solid rgba(255,248,223,0.18);
+        border-radius: 16px;
+        background: rgba(255,248,223,0.1);
+        padding: 15px;
+      }
+
+      .now-playing-card strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 18px;
+      }
+
+      .now-playing-card span {
+        display: block;
+        color: rgba(255,248,223,0.7);
+        font-size: 13px;
+      }
+
+      .playlist-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .playlist-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: #fff4c8;
+        color: #2f1909;
+        font-size: 12px;
+        font-weight: 900;
+        padding: 10px 13px;
+        text-decoration: none;
+      }
+
+      .playlist-list {
+        display: grid;
+        gap: 1px;
+        background: rgba(255,248,223,0.16);
+      }
+
+      .playlist-track {
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+        background: rgba(255,242,198,0.94);
+        color: var(--ink);
+        box-shadow: none;
+        padding: 14px 16px;
+        text-align: left;
+      }
+
+      .playlist-track:hover,
+      .playlist-track:focus-visible,
+      .playlist-track.is-active {
+        background: #ffe99b;
+        transform: none;
+        outline: none;
+      }
+
+      .playlist-track strong {
+        display: block;
+        font-size: 15px;
+      }
+
+      .playlist-track span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
       .mascot {
         position: relative;
         min-height: 360px;
@@ -505,6 +649,7 @@
         .nav-inner,
         .hero,
         .scroll-card,
+        .playlist-shell,
         .book-layout,
         .page {
           grid-template-columns: 1fr;
@@ -577,7 +722,7 @@
           <button type="button" data-recipe-category="Post-Workout Meals">Post-Workout</button>
           <button type="button" data-recipe-category="Protein Shakes">Protein Shakes</button>
           <button type="button" data-recipe-category="Race Day Fuel">Race Day Fuel</button>
-          <button id="music-toggle" class="music" type="button" aria-pressed="false">Play Cafe Spell</button>
+          <a class="button music" href="#french-playlist">Open French Cafe Playlist</a>
         </div>
       </section>
 
@@ -593,6 +738,18 @@
     </header>
 
     <main class="container">
+      <section id="french-playlist" class="playlist-shell" aria-labelledby="playlist-title">
+        <div class="playlist-feature">
+          <div>
+            <span class="playlist-label">French cafe spellbook</span>
+            <h2 id="playlist-title">French Tavern Playlist</h2>
+            <p>Real French cafe, chanson, musette, and gypsy-jazz artists for the cookbook kitchen mood.</p>
+          </div>
+          <div id="now-playing" class="now-playing-card" aria-live="polite"></div>
+        </div>
+        <div id="playlist-list" class="playlist-list" aria-label="French music playlist"></div>
+      </section>
+
       <section class="scroll-card" aria-labelledby="training-title">
         <div>
           <h2 id="training-title">Food Belongs In The Training Plan</h2>
@@ -751,8 +908,65 @@
 
       let recipeIndex = 0;
       let audioContext = null;
-      let musicTimer = null;
-      let musicStep = 0;
+
+      const frenchPlaylist = [
+        {
+          artist: 'Django Reinhardt & Stephane Grappelli',
+          track: 'Minor Swing',
+          mood: 'Gypsy-jazz guitar and violin for fast chopping, fast feet, and race-week confidence.',
+          vibe: 'Paris hot club jazz',
+          query: 'Django Reinhardt Stephane Grappelli Minor Swing'
+        },
+        {
+          artist: 'Edith Piaf',
+          track: 'La Vie en rose',
+          mood: 'Classic chanson for the candlelit French kitchen side of the cookbook.',
+          vibe: 'French chanson',
+          query: 'Edith Piaf La Vie en rose'
+        },
+        {
+          artist: 'Charles Trenet',
+          track: 'Douce France',
+          mood: 'Warm, old-France melody for easy breakfast prep and calm pre-run rituals.',
+          vibe: 'Vintage French song',
+          query: 'Charles Trenet Douce France'
+        },
+        {
+          artist: 'Yann Tiersen',
+          track: 'Comptine d un autre ete',
+          mood: 'Whimsical piano-and-accordion energy for the magical cookbook feeling.',
+          vibe: 'Amelie-style instrumental',
+          query: 'Yann Tiersen Comptine d un autre ete'
+        },
+        {
+          artist: 'Gus Viseur',
+          track: 'Flambee Montalbanaise',
+          mood: 'Musette accordion with enough sparkle to make hydration feel like a potion.',
+          vibe: 'French musette',
+          query: 'Gus Viseur Flambee Montalbanaise'
+        },
+        {
+          artist: 'Jo Privat',
+          track: 'Balajo',
+          mood: 'Accordion dance-hall color for baguettes, recipe cards, and low-stakes kitchen drama.',
+          vibe: 'Bal musette',
+          query: 'Jo Privat Balajo'
+        },
+        {
+          artist: 'Tony Murena',
+          track: 'Indifference',
+          mood: 'Smoother musette for recovery meals and late-night race planning.',
+          vibe: 'Accordion waltz',
+          query: 'Tony Murena Indifference'
+        },
+        {
+          artist: 'Yvette Horner',
+          track: 'Reine de musette',
+          mood: 'Big accordion personality for the troll wizard band when the kitchen gets theatrical.',
+          vibe: 'Accordion showpiece',
+          query: 'Yvette Horner Reine de musette'
+        }
+      ];
 
       function tone(frequency, duration = 0.12, type = 'triangle', gainValue = 0.035) {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -778,25 +992,35 @@
         });
       }
 
-      function toggleMusic() {
-        const button = document.getElementById('music-toggle');
-        if (!button) return;
-        if (musicTimer) {
-          window.clearInterval(musicTimer);
-          musicTimer = null;
-          button.textContent = 'Play Cafe Spell';
-          button.setAttribute('aria-pressed', 'false');
-          return;
-        }
-        const notes = [392, 440, 523, 659, 587, 523, 440, 349];
-        button.textContent = 'Mute the Wizard Band';
-        button.setAttribute('aria-pressed', 'true');
-        const playStep = () => {
-          tone(notes[musicStep % notes.length], 0.18, musicStep % 2 ? 'triangle' : 'sine', 0.018);
-          musicStep += 1;
-        };
-        playStep();
-        musicTimer = window.setInterval(playStep, 520);
+      function getMusicUrl(track, provider) {
+        const query = encodeURIComponent(track.query);
+        if (provider === 'spotify') return `https://open.spotify.com/search/${query}`;
+        return `https://www.youtube.com/results?search_query=${query}`;
+      }
+
+      function renderPlaylist(activeIndex = 0) {
+        const list = document.getElementById('playlist-list');
+        const now = document.getElementById('now-playing');
+        if (!list || !now) return;
+        const active = frenchPlaylist[activeIndex] || frenchPlaylist[0];
+        now.innerHTML = `
+          <strong>${active.track}</strong>
+          <span>${active.artist}</span>
+          <p>${active.mood}</p>
+          <div class="playlist-actions">
+            <a class="playlist-action" href="${getMusicUrl(active, 'youtube')}" target="_blank" rel="noopener noreferrer">Listen on YouTube</a>
+            <a class="playlist-action" href="${getMusicUrl(active, 'spotify')}" target="_blank" rel="noopener noreferrer">Search Spotify</a>
+          </div>
+        `;
+        list.innerHTML = frenchPlaylist.map((track, idx) => `
+          <button class="playlist-track${idx === activeIndex ? ' is-active' : ''}" type="button" data-track-index="${idx}">
+            <strong>${track.track}</strong>
+            <span>${track.artist} - ${track.vibe}</span>
+          </button>
+        `).join('');
+        list.querySelectorAll('[data-track-index]').forEach(button => {
+          button.addEventListener('click', () => renderPlaylist(Number(button.dataset.trackIndex || 0)));
+        });
       }
 
       function renderTabs() {
@@ -860,9 +1084,9 @@
 
       function setupCookbook() {
         renderPage(false);
+        renderPlaylist(0);
         document.getElementById('prev').addEventListener('click', () => setRecipe(recipeIndex - 1, false));
         document.getElementById('next').addEventListener('click', () => setRecipe(recipeIndex + 1, false));
-        document.getElementById('music-toggle').addEventListener('click', toggleMusic);
         document.querySelectorAll('[data-recipe-category]').forEach(button => {
           button.addEventListener('click', () => {
             const category = button.getAttribute('data-recipe-category');
