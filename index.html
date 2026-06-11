@@ -3,228 +3,876 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trollrunner Nutrition</title>
+    <title>The Troll Runner Cookbook</title>
     <meta
       name="description"
-      content="Evidence-informed nutrition guidance for endurance runners, inspired by public-health nutrition principles."
+      content="A playful fantasy French cookbook for runners with practical fueling, hydration, and recovery recipes."
     />
     <style>
       :root {
-        --bg: #f7f9fb;
-        --surface: #ffffff;
-        --ink: #16202a;
-        --muted: #4a5b6b;
-        --brand: #1a5d99;
-        --brand-dark: #13436d;
-        --accent: #e8f3ff;
-        --border: #d8e3ee;
+        --ink: #2b1709;
+        --muted: #6b4b2d;
+        --parchment: #fff2c6;
+        --parchment-deep: #e6bd74;
+        --wine: #8b2e35;
+        --leaf: #2e7b55;
+        --violet: #5d3a91;
+        --gold: #f0c75a;
+        --shadow: rgba(50, 25, 7, 0.28);
       }
 
       * { box-sizing: border-box; }
 
+      html { scroll-behavior: smooth; }
+
       body {
         margin: 0;
-        font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+        font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
         color: var(--ink);
-        background: var(--bg);
-        line-height: 1.6;
+        background:
+          radial-gradient(circle at 18% 14%, rgba(126, 58, 145, 0.24), transparent 28%),
+          radial-gradient(circle at 82% 6%, rgba(31, 123, 85, 0.22), transparent 24%),
+          linear-gradient(145deg, #39200d 0%, #714018 42%, #211006 100%);
+        line-height: 1.55;
       }
 
-      a { color: var(--brand); }
-      a:hover { color: var(--brand-dark); }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.28;
+        background:
+          repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 12px),
+          repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0 1px, transparent 1px 10px);
+      }
+
+      a { color: inherit; }
 
       .container {
-        width: min(1100px, 92vw);
+        width: min(1160px, calc(100% - 32px));
         margin: 0 auto;
       }
 
-      header {
-        background: linear-gradient(120deg, #f1f7ff 0%, #ffffff 60%);
-        border-bottom: 1px solid var(--border);
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid rgba(255,244,205,0.28);
+        background: rgba(46, 24, 8, 0.82);
+        backdrop-filter: blur(12px);
       }
 
-      .nav {
+      .nav-inner {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 1rem 0;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 0;
+        color: #fff7dc;
       }
 
       .brand {
-        font-weight: 800;
-        letter-spacing: .3px;
-        font-size: 1.15rem;
+        font-weight: 900;
         text-decoration: none;
+        letter-spacing: 0;
       }
 
       .nav-links {
         display: flex;
-        gap: 1rem;
-        font-size: .95rem;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        font-weight: 800;
       }
+
+      .nav-links a {
+        color: rgba(255,247,220,0.78);
+        text-decoration: none;
+      }
+
+      .nav-links a:hover { color: #fff; }
 
       .hero {
-        padding: 4rem 0 3rem;
-      }
-
-      .hero h1 {
-        font-size: clamp(2rem, 4vw, 3rem);
-        line-height: 1.15;
-        margin: 0 0 1rem;
-      }
-
-      .hero p {
-        max-width: 70ch;
-        color: var(--muted);
-        margin: 0 0 1.5rem;
-      }
-
-      .button {
-        display: inline-block;
-        background: var(--brand);
-        color: #fff;
-        text-decoration: none;
-        font-weight: 600;
-        padding: .75rem 1.1rem;
-        border-radius: .6rem;
-      }
-
-      main {
-        padding: 2rem 0 4rem;
-      }
-
-      .grid {
+        min-height: 74vh;
         display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        margin-bottom: 2rem;
+        grid-template-columns: minmax(0, 1fr) minmax(240px, 340px);
+        gap: 32px;
+        align-items: center;
+        padding: 44px 0 28px;
       }
 
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: .9rem;
-        padding: 1rem 1rem 1.2rem;
+      .hero-copy {
+        color: #fff8df;
+        text-shadow: 0 2px 20px rgba(0,0,0,0.22);
       }
 
-      .card h3 { margin: .2rem 0 .45rem; }
-      .card p { margin: 0; color: var(--muted); }
-
-      .section {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: .9rem;
-        padding: 1.25rem;
-        margin-bottom: 1rem;
+      .kicker {
+        display: inline-flex;
+        border: 1px solid rgba(255,247,220,0.34);
+        border-radius: 999px;
+        padding: 7px 11px;
+        background: rgba(255,247,220,0.12);
+        color: #f9d976;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
       }
 
-      .section h2 {
-        margin-top: 0;
+      h1 {
+        max-width: 10ch;
+        margin: 14px 0 12px;
+        font-size: clamp(48px, 8vw, 94px);
+        line-height: 0.9;
+        letter-spacing: 0;
       }
 
-      .principles {
+      .hero-copy p {
+        max-width: 670px;
         margin: 0;
-        padding-left: 1.25rem;
+        color: rgba(255,248,223,0.82);
+        font-size: 17px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      button,
+      .button {
+        border: 1px solid rgba(80, 41, 12, 0.22);
+        border-radius: 999px;
+        background: #fff4c8;
+        color: #2f1909;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 900;
+        padding: 11px 15px;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 12px 24px rgba(38, 18, 5, 0.22);
+      }
+
+      button:hover,
+      .button:hover,
+      button:focus-visible,
+      .button:focus-visible {
+        outline: none;
+        transform: translateY(-1px);
+        background: #ffe99b;
+      }
+
+      .primary { background: var(--leaf); color: #fff; }
+      .music { background: var(--violet); color: #fff; }
+
+      .mascot {
+        position: relative;
+        min-height: 360px;
+        display: grid;
+        place-items: center;
+      }
+
+      .spell-ring {
+        position: absolute;
+        width: min(100%, 310px);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: conic-gradient(from 30deg, #8752c8, #f0c75a, #3ea76f, #e56748, #8752c8);
+        opacity: 0.76;
+        animation: spin 10s linear infinite;
+      }
+
+      .wizard {
+        position: relative;
+        width: 232px;
+        height: 270px;
+        filter: drop-shadow(0 24px 24px rgba(22, 10, 3, 0.35));
+      }
+
+      .hat {
+        position: absolute;
+        left: 36px;
+        top: 0;
+        width: 160px;
+        height: 120px;
+        clip-path: polygon(50% 0, 100% 100%, 0 100%);
+        background: linear-gradient(135deg, #4d2d82, #8a55d0);
+      }
+
+      .hat::after {
+        content: "";
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 16px;
+        height: 10px;
+        border-radius: 999px;
+        background: #f1c85a;
+      }
+
+      .face {
+        position: absolute;
+        left: 30px;
+        top: 82px;
+        width: 172px;
+        height: 130px;
+        border: 5px solid #111;
+        border-radius: 48% 52% 44% 50%;
+        background: #fff7df;
+      }
+
+      .face::before,
+      .face::after {
+        content: "";
+        position: absolute;
+        top: 42px;
+        width: 28px;
+        height: 18px;
+        border: 4px solid #111;
+        border-top: 0;
+        border-radius: 0 0 24px 24px;
+      }
+
+      .face::before { left: 38px; transform: rotate(-8deg); }
+      .face::after { right: 38px; transform: rotate(8deg); }
+
+      .grin {
+        position: absolute;
+        left: 43px;
+        bottom: 28px;
+        width: 84px;
+        height: 30px;
+        border-bottom: 6px solid #111;
+        border-radius: 0 0 80px 80px;
+      }
+
+      .robe {
+        position: absolute;
+        left: 20px;
+        bottom: 0;
+        width: 192px;
+        height: 92px;
+        border-radius: 38px 38px 18px 18px;
+        background: linear-gradient(135deg, #305f46, #6b3fac);
+      }
+
+      .tip {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        max-width: 310px;
+        margin: 0 auto;
+        border: 1px solid rgba(78,42,13,0.22);
+        border-radius: 14px;
+        background: rgba(255, 247, 220, 0.94);
+        padding: 12px 14px;
+        color: #351d0d;
+        font-size: 13px;
+        font-weight: 800;
+        box-shadow: 0 14px 24px rgba(34, 15, 4, 0.22);
+      }
+
+      main { padding: 0 0 46px; }
+
+      .scroll-card,
+      .book-shell {
+        border: 1px solid rgba(97, 50, 14, 0.22);
+        border-radius: 20px;
+        background:
+          linear-gradient(135deg, rgba(255,246,214,0.97), rgba(235,197,126,0.94)),
+          repeating-linear-gradient(45deg, rgba(88,48,14,0.08) 0 2px, transparent 2px 9px);
+        box-shadow: 0 24px 54px var(--shadow);
+      }
+
+      .scroll-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+        gap: 18px;
+        padding: clamp(18px, 3vw, 28px);
+        margin-bottom: 26px;
+      }
+
+      .scroll-card h2,
+      .book-head h2 {
+        margin: 0 0 8px;
+        font-size: clamp(24px, 3vw, 38px);
+        line-height: 1;
+      }
+
+      .scroll-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .essentials {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .essentials li {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 800;
+        color: #53351c;
+      }
+
+      .essentials li::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--leaf), var(--gold));
+        flex: 0 0 auto;
+      }
+
+      .book-shell { padding: clamp(18px, 3vw, 28px); }
+
+      .book-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: end;
+        margin-bottom: 16px;
+      }
+
+      .book-head p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .book-layout {
+        display: grid;
+        grid-template-columns: 176px minmax(0, 1fr);
+        gap: 14px;
+      }
+
+      .tabs {
+        display: grid;
+        gap: 8px;
+        align-content: start;
+      }
+
+      .tab {
+        border-radius: 9px 0 0 9px;
+        background: var(--wine);
+        color: #fff8df;
+        text-align: left;
+        box-shadow: 0 8px 16px rgba(58, 29, 8, 0.14);
+      }
+
+      .tab:nth-child(3n + 2) { background: var(--leaf); }
+      .tab:nth-child(3n) { background: var(--violet); }
+      .tab[aria-selected="true"] { transform: translateX(8px); filter: brightness(1.08); }
+
+      .book {
+        min-height: 430px;
+        border: 1px solid rgba(86,46,15,0.24);
+        border-radius: 18px;
+        background:
+          linear-gradient(90deg, rgba(105,57,22,0.14), transparent 8%, transparent 92%, rgba(105,57,22,0.12)),
+          linear-gradient(90deg, #f8e3ae 0 49.5%, #e2bd73 49.5% 50.5%, #fff0bf 50.5% 100%);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.42);
+        perspective: 1400px;
+      }
+
+      .page {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        gap: 24px;
+        min-height: 430px;
+        padding: clamp(20px, 3vw, 32px);
+        transform-origin: left center;
+      }
+
+      .page.is-flipping { animation: flip 560ms ease both; }
+
+      .recipe-category {
+        display: inline-flex;
+        margin-bottom: 8px;
+        color: #7a3015;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .recipe-title-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .recipe-title {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 36px);
+        line-height: 1.05;
+      }
+
+      .badge {
+        border-radius: 999px;
+        background: var(--leaf);
+        color: #fff;
+        padding: 7px 10px;
+        font-size: 11px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin: 16px 0;
+      }
+
+      .meta,
+      .benefit,
+      .wizard-tip {
+        border: 1px solid rgba(81,44,14,0.16);
+        border-radius: 13px;
+        background: rgba(255,249,226,0.64);
+        padding: 11px;
+      }
+
+      .meta span,
+      .benefit strong,
+      .wizard-tip strong,
+      .ingredients h3 {
+        display: block;
+        margin: 0 0 5px;
+        color: #6d3414;
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .meta strong { font-size: 13px; }
+
+      .ingredients ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .benefit,
+      .wizard-tip {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .wizard-tip {
+        margin-top: 12px;
+        background: rgba(93,58,145,0.1);
+      }
+
+      .controls {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 0 18px 18px;
       }
 
       footer {
-        border-top: 1px solid var(--border);
-        color: var(--muted);
-        padding: 1.5rem 0 2.2rem;
-        font-size: .92rem;
+        color: rgba(255,248,223,0.72);
+        padding: 26px 0 34px;
+        text-align: center;
+        font-size: 13px;
       }
 
-      .pill {
-        display: inline-block;
-        background: var(--accent);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: .25rem .7rem;
-        font-size: .82rem;
-        color: #1f4d79;
-        margin-bottom: .7rem;
+      @keyframes spin { to { transform: rotate(1turn); } }
+
+      @keyframes flip {
+        0% { transform: rotateY(0deg); opacity: 1; }
+        45% { transform: rotateY(-18deg); opacity: 0.52; }
+        100% { transform: rotateY(0deg); opacity: 1; }
       }
 
-      @media (max-width: 700px) {
-        .nav { align-items: flex-start; flex-direction: column; gap: .7rem; }
+      @media (max-width: 820px) {
+        .nav-inner,
+        .hero,
+        .scroll-card,
+        .book-layout,
+        .page {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: 0;
+          padding-top: 34px;
+        }
+
+        h1 { font-size: clamp(46px, 15vw, 70px); }
+
+        .book-head { display: block; }
+
+        .tabs {
+          display: flex;
+          overflow-x: auto;
+          padding-bottom: 8px;
+          scroll-snap-type: x proximity;
+        }
+
+        .tab {
+          flex: 0 0 auto;
+          border-radius: 999px;
+          white-space: nowrap;
+          scroll-snap-align: start;
+        }
+
+        .tab[aria-selected="true"] { transform: translateY(-2px); }
+
+        .book,
+        .page { min-height: 0; }
+
+        .meta-grid,
+        .essentials {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 520px) {
+        .container { width: min(100% - 22px, 1160px); }
+        .actions { gap: 8px; }
+        button, .button { width: 100%; text-align: center; }
+        .meta-grid,
+        .essentials { grid-template-columns: 1fr; }
+        .controls { display: grid; }
       }
     </style>
   </head>
   <body>
-    <header>
-      <div class="container">
-        <nav class="nav" aria-label="Main navigation">
-          <a class="brand" href="#">nutrition.trollrunner.net</a>
-          <div class="nav-links">
-            <a href="https://finance.trollrunner.net">Finance</a>
-            <a href="https://trollrunner.net">Main Site</a>
-            <a href="https://blog.trollrunner.net" target="_blank" rel="noopener">Blog</a>
-          </div>
-        </nav>
-
-        <section class="hero" id="about">
-          <span class="pill">Evidence-informed • Runner-focused</span>
-          <h1>Practical nutrition guidance for everyday runners.</h1>
-          <p>
-            This site is inspired by public-health nutrition education and translates core ideas into
-            clear, actionable habits for training, recovery, and long-term health.
-          </p>
-          <a class="button" href="#topics">Explore core topics</a>
-        </section>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container nav-inner">
+        <a class="brand" href="#">nutrition.trollrunner.net</a>
+        <div class="nav-links">
+          <a href="https://trollrunner.net">Main Site</a>
+          <a href="https://finance.trollrunner.net">Finance</a>
+          <a href="https://blog.trollrunner.net">Blog</a>
+        </div>
       </div>
-    </header>
+    </nav>
 
-    <main class="container">
-      <section id="topics">
-        <h2>Core nutrition topics</h2>
-        <div class="grid">
-          <article class="card">
-            <h3>Performance Plate</h3>
-            <p>Balance carbs, protein, colorful produce, and healthy fats based on workout intensity.</p>
-          </article>
-          <article class="card">
-            <h3>Hydration</h3>
-            <p>Drink to thirst and replace fluids thoughtfully before, during, and after long sessions.</p>
-          </article>
-          <article class="card">
-            <h3>Recovery Timing</h3>
-            <p>Within 1–2 hours post-run, prioritize carbs + protein to support glycogen and repair.</p>
-          </article>
-          <article class="card">
-            <h3>Weekly Consistency</h3>
-            <p>Focus on repeatable patterns over perfect days: meals, sleep, hydration, and snacks.</p>
-          </article>
+    <header class="container hero">
+      <section class="hero-copy" aria-labelledby="page-title">
+        <span class="kicker">Fantasy French fuel lab</span>
+        <h1 id="page-title">The Troll Runner Cookbook</h1>
+        <p>Magical meals, race fuel, and recovery recipes from the troll wizard kitchen. Playful enough for potion bottles and baguettes, practical enough for your next workout.</p>
+        <div class="actions" aria-label="Cookbook shortcuts">
+          <a class="button primary" href="#cookbook">Open Cookbook</a>
+          <button type="button" data-recipe-category="Pre-Workout Meals">Pre-Workout</button>
+          <button type="button" data-recipe-category="Post-Workout Meals">Post-Workout</button>
+          <button type="button" data-recipe-category="Protein Shakes">Protein Shakes</button>
+          <button type="button" data-recipe-category="Race Day Fuel">Race Day Fuel</button>
+          <button id="music-toggle" class="music" type="button" aria-pressed="false">Play Cafe Spell</button>
         </div>
       </section>
 
-      <section class="section" id="principles">
-        <h2>Guiding principles</h2>
-        <ol class="principles">
-          <li>Prefer minimally processed foods most of the time.</li>
-          <li>Match carb intake to training load, not to social media trends.</li>
-          <li>Keep protein regular across the day (3–5 feedings).</li>
-          <li>Use supplements as targeted tools, not substitutes for meals.</li>
-          <li>Choose sustainable habits that fit real life and budget.</li>
-        </ol>
+      <aside class="mascot" aria-label="Troll wizard chef tip">
+        <div class="spell-ring" aria-hidden="true"></div>
+        <div class="wizard" aria-hidden="true">
+          <div class="hat"></div>
+          <div class="robe"></div>
+          <div class="face"><div class="grin"></div></div>
+        </div>
+        <p id="mascot-tip" class="tip">A tiny pinch of carbs before the quest keeps the legs from filing a formal complaint.</p>
+      </aside>
+    </header>
+
+    <main class="container">
+      <section class="scroll-card" aria-labelledby="training-title">
+        <div>
+          <h2 id="training-title">Food Belongs In The Training Plan</h2>
+          <p>Every runner needs more than miles. This cookbook helps you fuel before workouts, recover after runs, and build meals that support your next 5K, 10K, half marathon, or full race quest.</p>
+        </div>
+        <ul class="essentials">
+          <li>5K Training Plan</li>
+          <li>10K Training Plan</li>
+          <li>Half Marathon Plan</li>
+          <li>Marathon Plan</li>
+          <li>Fueling Experiments</li>
+          <li>Pre-Race Nutrition</li>
+          <li>During-Race Fueling</li>
+          <li>Recovery Nutrition</li>
+        </ul>
       </section>
 
-      <section class="section">
-        <h2>Next version ideas</h2>
-        <p>
-          Add individual topic pages, a fueling calculator, beginner guides, and cited references.
-          This starter page gives us a clean foundation to iterate quickly.
-        </p>
+      <section id="cookbook" class="book-shell" aria-labelledby="cookbook-title">
+        <div class="book-head">
+          <div>
+            <h2 id="cookbook-title">Wizard Fuel Cookbook</h2>
+            <p>Flip through practical recipes with a little French kitchen mischief.</p>
+          </div>
+        </div>
+        <div class="book-layout">
+          <div id="tabs" class="tabs" role="tablist" aria-label="Cookbook categories"></div>
+          <div class="book" aria-live="polite">
+            <article id="page" class="page"></article>
+            <div class="controls">
+              <button id="prev" type="button">Previous Page</button>
+              <button id="next" class="primary" type="button">Next Page</button>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
-    <footer>
-      <div class="container">
-        Built for Trollrunner • Inspired by public nutrition education models including
-        <a href="https://nutritionsource.hsph.harvard.edu/" target="_blank" rel="noopener">The Nutrition Source</a>.
-      </div>
+    <footer class="container">
+      Built for Trollrunner. Test new recipes in training before race day.
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/site-lock.js"></script>
     <script src="assets/js/admin-auth.js"></script>
+    <script>
+      const recipes = [
+        {
+          category: 'Pre-Workout Meals',
+          title: 'Banana Baguette Spell Toast',
+          prep: '7 min',
+          timing: '45-75 min before',
+          protein: '12g',
+          carbs: '62g',
+          calories: '360',
+          ingredients: ['Half baguette or thick toast', '1 banana', '1 tbsp peanut butter', 'Honey', 'Pinch of sea salt'],
+          benefit: 'Quick carbs with a little fat and protein for steady energy before intervals, tempos, or easy miles.',
+          tip: 'Keep the salt. The wizard says sweat taxes are paid in sodium.'
+        },
+        {
+          category: 'Post-Workout Meals',
+          title: 'Recovery Ratatouille Rice Bowl',
+          prep: '18 min',
+          timing: 'Within 60 min after',
+          protein: '32g',
+          carbs: '74g',
+          calories: '620',
+          ingredients: ['Cooked rice', 'Grilled chicken or tofu', 'Zucchini', 'Tomatoes', 'Eggplant', 'Olive oil'],
+          benefit: 'A carb-forward recovery bowl with enough protein to support muscle repair after longer runs.',
+          tip: 'If your legs feel cursed, add extra rice before blaming the moon.'
+        },
+        {
+          category: 'Breakfast',
+          title: 'Crepe Quest Oats',
+          prep: '10 min',
+          timing: 'Morning or 2 hr pre-run',
+          protein: '24g',
+          carbs: '68g',
+          calories: '510',
+          ingredients: ['Rolled oats', 'Greek yogurt', 'Berries', 'Maple syrup', 'Chia seeds', 'Cinnamon'],
+          benefit: 'Slow-release carbs and protein make this a practical breakfast for base training days.',
+          tip: 'Stir clockwise for confidence. Counterclockwise for hill repeats.'
+        },
+        {
+          category: 'Lunch',
+          title: 'Castle Courtyard Nicoise Wrap',
+          prep: '12 min',
+          timing: 'Midday training fuel',
+          protein: '34g',
+          carbs: '48g',
+          calories: '540',
+          ingredients: ['Large wrap', 'Tuna or chickpeas', 'Potatoes', 'Green beans', 'Egg', 'Dijon yogurt sauce'],
+          benefit: 'Balanced protein, carbs, and salt for runners who still need to function after lunch.',
+          tip: 'Potatoes are tiny training stones. Respect them.'
+        },
+        {
+          category: 'Dinner',
+          title: 'Marathon Coq au Vin Pasta',
+          prep: '25 min',
+          timing: 'Night before big training',
+          protein: '38g',
+          carbs: '92g',
+          calories: '760',
+          ingredients: ['Pasta', 'Chicken', 'Mushrooms', 'Carrots', 'Low-sodium broth', 'Herbs'],
+          benefit: 'A hearty carb load with lean protein for the evening before a long run or race simulation.',
+          tip: 'Go easy on heavy sauce before race day. The cauldron should not fight back.'
+        },
+        {
+          category: 'Protein Shakes',
+          title: 'Vanilla Potion Recovery Shake',
+          prep: '4 min',
+          timing: 'After hard sessions',
+          protein: '31g',
+          carbs: '52g',
+          calories: '430',
+          ingredients: ['Milk or soy milk', 'Vanilla protein', 'Frozen banana', 'Oats', 'Pinch of salt'],
+          benefit: 'Fast, drinkable recovery when appetite is low but the workout took payment.',
+          tip: 'Blend until the potion stops looking suspicious.'
+        },
+        {
+          category: 'Race Day Fuel',
+          title: 'Start-Line Honey Rice Cakes',
+          prep: '15 min',
+          timing: '2-3 hr before race',
+          protein: '8g',
+          carbs: '86g',
+          calories: '410',
+          ingredients: ['Sticky rice', 'Honey', 'Blueberries', 'Sea salt', 'Small splash of lemon'],
+          benefit: 'Simple, familiar carbs that are easy to portion before a 5K, 10K, half, or marathon.',
+          tip: 'Test this in training. Race day is not the time to audition a mysterious scroll.'
+        },
+        {
+          category: 'Snacks',
+          title: 'Pocket Brioche Energy Bites',
+          prep: '8 min',
+          timing: 'Any snack window',
+          protein: '10g',
+          carbs: '42g',
+          calories: '280',
+          ingredients: ['Brioche pieces', 'Almond butter', 'Dates', 'Cocoa', 'Flaky salt'],
+          benefit: 'A compact snack for topping off energy between meals or after short runs.',
+          tip: 'Make them small enough to share, then mysteriously do not share.'
+        },
+        {
+          category: 'Hydration / Electrolyte Drinks',
+          title: 'Lavender Lemon Electrolyte Elixir',
+          prep: '3 min',
+          timing: 'Before or during hot runs',
+          protein: '0g',
+          carbs: '24g',
+          calories: '96',
+          ingredients: ['Water', 'Lemon juice', 'Honey', 'Pinch of salt', 'Tiny splash of lavender syrup'],
+          benefit: 'Fluids, sodium, and light carbs help maintain effort when the weather gets dramatic.',
+          tip: 'The salt should whisper, not shout.'
+        }
+      ];
+
+      let recipeIndex = 0;
+      let audioContext = null;
+      let musicTimer = null;
+      let musicStep = 0;
+
+      function tone(frequency, duration = 0.12, type = 'triangle', gainValue = 0.035) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'suspended') void audioContext.resume();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.type = type;
+        oscillator.frequency.value = frequency;
+        gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(gainValue, audioContext.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + duration + 0.02);
+      }
+
+      function flipSound() {
+        [659, 784, 988].forEach((frequency, idx) => {
+          window.setTimeout(() => tone(frequency, 0.08, 'sine', 0.025), idx * 42);
+        });
+      }
+
+      function toggleMusic() {
+        const button = document.getElementById('music-toggle');
+        if (!button) return;
+        if (musicTimer) {
+          window.clearInterval(musicTimer);
+          musicTimer = null;
+          button.textContent = 'Play Cafe Spell';
+          button.setAttribute('aria-pressed', 'false');
+          return;
+        }
+        const notes = [392, 440, 523, 659, 587, 523, 440, 349];
+        button.textContent = 'Mute the Wizard Band';
+        button.setAttribute('aria-pressed', 'true');
+        const playStep = () => {
+          tone(notes[musicStep % notes.length], 0.18, musicStep % 2 ? 'triangle' : 'sine', 0.018);
+          musicStep += 1;
+        };
+        playStep();
+        musicTimer = window.setInterval(playStep, 520);
+      }
+
+      function renderTabs() {
+        const tabs = document.getElementById('tabs');
+        tabs.innerHTML = '';
+        recipes.forEach((recipe, idx) => {
+          const button = document.createElement('button');
+          button.className = 'tab';
+          button.type = 'button';
+          button.textContent = recipe.category;
+          button.setAttribute('role', 'tab');
+          button.setAttribute('aria-selected', String(idx === recipeIndex));
+          button.addEventListener('click', () => setRecipe(idx, true));
+          tabs.appendChild(button);
+        });
+      }
+
+      function renderPage(animate = false) {
+        const recipe = recipes[recipeIndex];
+        const page = document.getElementById('page');
+        if (animate) {
+          page.classList.remove('is-flipping');
+          void page.offsetWidth;
+          page.classList.add('is-flipping');
+          flipSound();
+        }
+        page.innerHTML = `
+          <div>
+            <span class="recipe-category">${recipe.category}</span>
+            <div class="recipe-title-row">
+              <h3 class="recipe-title">${recipe.title}</h3>
+              <span class="badge">${recipe.prep}</span>
+            </div>
+            <div class="meta-grid">
+              <div class="meta"><span>Eat</span><strong>${recipe.timing}</strong></div>
+              <div class="meta"><span>Protein</span><strong>${recipe.protein}</strong></div>
+              <div class="meta"><span>Carbs</span><strong>${recipe.carbs}</strong></div>
+              <div class="meta"><span>Calories</span><strong>${recipe.calories}</strong></div>
+              <div class="meta"><span>Prep</span><strong>${recipe.prep}</strong></div>
+              <div class="meta"><span>Quest</span><strong>${recipe.category.replace(' Meals', '')}</strong></div>
+            </div>
+            <div class="ingredients">
+              <h3>Ingredients</h3>
+              <ul>${recipe.ingredients.map(item => `<li>${item}</li>`).join('')}</ul>
+            </div>
+          </div>
+          <div>
+            <div class="benefit"><strong>Runner Benefit</strong>${recipe.benefit}</div>
+            <div class="wizard-tip"><strong>Troll Runner Tip</strong>${recipe.tip}</div>
+          </div>
+        `;
+        document.getElementById('mascot-tip').textContent = recipe.tip;
+        renderTabs();
+      }
+
+      function setRecipe(index, shouldScroll = false) {
+        recipeIndex = (index + recipes.length) % recipes.length;
+        renderPage(true);
+        if (shouldScroll) document.getElementById('cookbook').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function setupCookbook() {
+        renderPage(false);
+        document.getElementById('prev').addEventListener('click', () => setRecipe(recipeIndex - 1, false));
+        document.getElementById('next').addEventListener('click', () => setRecipe(recipeIndex + 1, false));
+        document.getElementById('music-toggle').addEventListener('click', toggleMusic);
+        document.querySelectorAll('[data-recipe-category]').forEach(button => {
+          button.addEventListener('click', () => {
+            const category = button.getAttribute('data-recipe-category');
+            const idx = recipes.findIndex(recipe => recipe.category === category);
+            if (idx >= 0) setRecipe(idx, true);
+          });
+        });
+      }
+
+      setupCookbook();
+    </script>
   </body>
 </html>
